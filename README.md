@@ -106,7 +106,7 @@ now
 Reurns a tuple of the current time as a time_t, and its matching
 time_str.  eg:
 
-```none
+```python
 $ ipython
 Python 2.7.6 (default, Mar 22 2014, 22:59:56)
 Type "copyright", "credits" or "license" for more information.
