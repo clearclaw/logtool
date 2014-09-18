@@ -124,8 +124,8 @@ Out[2]: (1411075417, '21:23:37 Thu 18 Sep 2014 Z+0000')
 
 In [3]: logtool.time_str (logtool.now ()[0])
 Out[3]: '14:23:42 Thu 18 Sep 2014 Z+0000'
-
-``` more information.
+```
+ more information.
 
 In [1]: import logtool
 
