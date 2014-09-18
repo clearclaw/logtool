@@ -47,7 +47,7 @@ In WARN or high mode:
 
     CRITICAL <log_fault_impl:log_fault(24)> FAULT: /usr/local/lib/python2.7/dist-packages/workerd-0.1.26_gbb342e2-py2.7.egg/workerd/do.py(243): IOError(28, 'No space left on device')
 
-InWhen logging at DEBUG:
+When logging at DEBUG:
 
     CRITICAL <log_fault_impl:log_fault(24)> FAULT: /usr/local/lib/python2.7/dist-packages/workerd-0.1.26_gbb342e2-py2.7.egg/workerd/do.py(243): IOError(28, 'No space left on device')
     DEBUG <log_fault_impl:log_fault(26)> Locals by frame, innermost last:
