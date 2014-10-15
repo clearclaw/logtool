@@ -73,8 +73,8 @@ def log_fault_info_str (exc_info, message = "", level = logging.CRITICAL,
                ("%s -- " % message) if message else "",
                tb.tb_frame.f_code.co_filename,
                tb.tb_lineno,
-               repr (exc_info[2])))
+               repr (exc_info[1])))
   if traceback:
     for line in _generate_stackdump (stack):
       rc.write ("%s\n" % line)
-    return rc
+  return rc.getvalue ()
