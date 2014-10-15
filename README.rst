@@ -24,7 +24,7 @@ argumentvalues redacted):
 
     Entered: function:test_tool.toolwrapper:email_report ((<test_tool.meshtool.Wrapper object at 0x7f19d4879c10>, path(u'../file.ext'), 'address@domain.com', 'address@domain.com', 'Interesting subject header') {})
 
-The {} at the end BT shows that there were now named arguments passed to
+The {} at the end shows that there were no named arguments passed to
 that call, else they would be shown there.
 
 log\_func\_noargs
@@ -97,7 +97,7 @@ time\_str
 
 Simply returns a time\_t (seconds since the epoch, possibly fractional)
 in a simple consistent string form suitable for logfiles, reports and
-the like.:
+the like.
 
 See below under ``now`` for an example.
 
@@ -105,7 +105,8 @@ now
 ---
 
 Reurns a tuple of the current time as a time\_t, and its matching
-time\_str. eg:
+time\_str. Getting the two together allows the string to be used for
+logs and the like, and the time_t to be used as a numeric.  eg:
 
 ::
 
@@ -126,10 +127,3 @@ time\_str. eg:
 
     In [3]: logtool.time_str (logtool.now ()[0])
     Out[3]: '14:23:42 Thu 18 Sep 2014 Z+0000'
-
-more information.
-
-In [1]: import logtool
-
-In [2]: logtool.now () Out[2]: (1411074768, '21:12:48 Thu 18 Sep 2014
-Z+0000')
