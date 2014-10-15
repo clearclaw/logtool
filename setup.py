@@ -3,13 +3,14 @@ from setuptools import setup, find_packages
 __version__ = "unknown"
 
 import pyver
-__version__, __version_info__ = pyver.get_version (pkg = "logtool")
+__version__, __version_info__ = pyver.get_version (pkg = "logtool",
+                                                   public = True)
 
 setup (
     name = "logtool",
     version = __version__,
     description = "Methods and tools that assist logging.",
-    long_description = file ("README.md").read (),
+    long_description = file ("README.rst").read (),
     classifiers = [
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
