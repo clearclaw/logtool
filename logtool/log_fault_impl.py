@@ -9,7 +9,7 @@ LOG = logging.getLogger (__name__)
 
 @log_func
 def _generate_stackdump (stack):
-  yield ("Locals by frame, innermost last:")
+  yield "Locals by frame, innermost last:"
   for frame in stack:
     yield ("Frame %s in %s at line %s" %(frame.f_code.co_name,
                                          frame.f_code.co_filename,
@@ -26,7 +26,7 @@ def _generate_stackdump (stack):
       yield s
 
 @log_func
-def _get_stack_frame (tb):
+def _get_stack (tb):
   stack = []
   while tb:
     stack.append (tb.tb_frame)
@@ -59,7 +59,7 @@ def log_fault_exc_str (exc, message = "", level = logging.CRITICAL,
   return log_fault_info_str (sys.exc_info (exc), message = message,
                              level = level, traceback = traceback)
 
-  @log_func
+@log_func
 def log_fault_info_str (exc_info, message = "", level = logging.CRITICAL,
                         traceback = False):
   """Make a StringIO of the usual traceback information, followed by a
