@@ -7,6 +7,7 @@ from functools import wraps
 LOG = logging.getLogger (__name__)
 
 def log_func_noargs (fn):
+
   @wraps (fn)
   def wrapper_noargs (*args, **kwargs):
     if LOG.isEnabledFor (logging.DEBUG):
@@ -24,6 +25,7 @@ def log_func_noargs (fn):
   return wrapper_noargs
 
 def log_func (fn):
+
   @wraps (fn)
   def wrapper_args (*args, **kwargs):
     if LOG.isEnabledFor (logging.DEBUG):
@@ -58,6 +60,7 @@ class log_trace (object):
     return self.localtrace
 
   def __call__ (self, fn):
+
     def wrapper (self, *args, **kwds):
       sys.settrace (self.globaltrace)
       result = fn (*args, **kwds)
@@ -66,6 +69,7 @@ class log_trace (object):
     return wrapper
 
 class log_call (log_trace):
+
   def __init__ (self, log_enter = True, log_args = True, log_exit = True,
                 log_rc = True, log_trace = False):
     self.log_enter = log_enter
