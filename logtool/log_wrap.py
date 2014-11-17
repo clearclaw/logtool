@@ -44,12 +44,14 @@ def log_func (fn):
   return wrapper_args
 
 class log_trace (object):
+  def __init__ (self):
+    log_debug = LOG.isEnabledFor (logging.DEBUG)
 
   def globaltrace (self, frame, why, arg):
     return self.localtrace if why == "call" else None
 
   def localtrace (self, frame, why, arg):
-    if why in ["c_call", "call", "line"]:
+    if self.log_debug and why in ["c_call", "call", "line"]:
       f_code = frame.f_code
       filename = f_code.co_filename
       funcname = f_code.co_name
