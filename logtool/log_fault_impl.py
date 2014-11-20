@@ -2,12 +2,12 @@
 
 import logging, sys
 from StringIO import StringIO
-from logtool import log_func
+from logtool import log_call
 
 # logging.basicConfig (level = logging.INFO)
 LOG = logging.getLogger (__name__)
 
-@log_func
+@log_call ()
 def _generate_stackdump (stack):
   yield "Locals by frame, innermost last:"
   for frame in stack:
@@ -25,7 +25,7 @@ def _generate_stackdump (stack):
         s += "<ERROR WHILE PRINTING VALUE>"
       yield s
 
-@log_func
+@log_call ()
 def _get_stack (tb):
   stack = []
   while tb:
@@ -33,7 +33,7 @@ def _get_stack (tb):
     tb = tb.tb_next
   return stack
 
-@log_func
+@log_call ()
 def log_fault (exc, message = "", level = logging.CRITICAL,
                traceback = False):
   """Print the usual traceback information, followed by a listing of all
@@ -50,7 +50,7 @@ def log_fault (exc, message = "", level = logging.CRITICAL,
     for line in _generate_stackdump (stack):
       LOG.debug (line)
 
-@log_func
+@log_call ()
 def log_fault_exc_str (exc, message = "", level = logging.CRITICAL,
                        traceback = False):
   """Make a StringIO of the usual traceback information, followed by a
@@ -59,7 +59,7 @@ def log_fault_exc_str (exc, message = "", level = logging.CRITICAL,
   return log_fault_info_str (sys.exc_info (exc), message = message,
                              level = level, traceback = traceback)
 
-@log_func
+@log_call ()
 def log_fault_info_str (exc_info, message = "", level = logging.CRITICAL,
                         traceback = False):
   """Make a StringIO of the usual traceback information, followed by a
