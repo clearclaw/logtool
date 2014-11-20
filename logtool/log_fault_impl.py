@@ -7,7 +7,7 @@ from logtool import log_func
 # logging.basicConfig (level = logging.INFO)
 LOG = logging.getLogger (__name__)
 
-@log_func
+#@log_func
 def _generate_stackdump (stack):
   yield "Locals by frame, innermost last:"
   for frame in stack:
@@ -25,7 +25,7 @@ def _generate_stackdump (stack):
         s += "<ERROR WHILE PRINTING VALUE>"
       yield s
 
-@log_func
+#@log_func
 def _get_stack (tb):
   stack = []
   while tb:
