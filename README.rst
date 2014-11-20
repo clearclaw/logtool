@@ -1,7 +1,11 @@
 logtool
 =======
 
-Methods and tools that assist logging.
+Methods and tools that assist logging.  Can be installed from PyPI:
+
+::
+
+  $ pip install logtool
 
 log\_call
 ---------
