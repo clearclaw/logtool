@@ -3,6 +3,43 @@ logtool
 
 Methods and tools that assist logging.
 
+log\_call
+---------
+
+A decorator for function and method definitions that logs at DEBUG
+level a variety of data about every call made to that entrypoint.
+
+Intended to supercede @log_func and log_func_noargs (see below).  See
+log\_func for example output.
+
+Optional arguments:
+
+log\_enter
+  Log entrance to the decorated method.  Defaults to True.
+log\_args
+  Log the arguments passed to the decorated method.  Defaults to True.
+log\_exit
+  Log exit/returns from the decorated method along with the execution time. Defaults to True.
+log\_rc
+  Log the value returned by the decorated method.  Defaults to True.
+log\_trace
+  Log each line of the decorated method as it is executed.  Defaults to False.
+
+Because log_call allows arguments to be passed, parethesies must be
+used even when no arguments are used:
+
+::
+
+  @logtool.log_call ()
+  def a_method (...):
+   ...etc...
+
+::
+
+  @logtool.log_call (log_args = False, log_rc = False)
+  def big_complex_data (...):
+   ...etc...
+
 log\_func
 ---------
 
