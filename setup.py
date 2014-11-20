@@ -30,6 +30,7 @@ setup (
     },
     zip_safe = True,
     install_requires = [
+        "wrapt",
         "pyver",
     ],
     entry_points = {
