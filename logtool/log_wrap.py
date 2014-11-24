@@ -63,6 +63,7 @@ class log_trace (object):
     sys.settrace (None)
     return result
 
+@wrapt.decorator
 class log_call (log_trace):
 
   def __init__ (self, log_enter = True, log_args = True, log_exit = True,
@@ -73,7 +74,6 @@ class log_call (log_trace):
     self.log_rc = log_rc
     self.log_trace = log_trace
 
-  @wrapt.decorator
   def __call__ (self, fn, instance, args, kwargs):
     argnames = fn.func_code.co_varnames[:fn.func_code.co_argcount]
     log_debug = LOG.isEnabledFor (logging.DEBUG)

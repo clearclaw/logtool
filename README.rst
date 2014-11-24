@@ -34,7 +34,7 @@ used even when no arguments are used:
 
 ::
 
-  @logtool.log_call ()
+  @logtool.log_call
   def a_method (...):
    ...etc...
 
