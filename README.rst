@@ -28,9 +28,8 @@ log\_rc
   Log the value returned by the decorated method.  Defaults to True.
 log\_trace
   Log each line of the decorated method as it is executed.  Defaults to False.
-
-Because log_call allows arguments to be passed, parethesies must be
-used even when no arguments are used:
+log\_level
+  Log level to use for the logginf of the call.  Defaults to logging.DBEUG.
 
 ::
 

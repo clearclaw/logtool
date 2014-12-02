@@ -69,23 +69,25 @@ class log_trace (object):
 class log_call (log_trace):
 
   def __init__ (self, log_enter = True, log_args = True, log_exit = True,
-                log_rc = True, log_trace = False):
+                log_rc = True, log_trace = False,
+                log_level = logging.DEBUG):
     self.log_enter = log_enter
     self.log_args = log_args
     self.log_exit = log_exit
     self.log_rc = log_rc
     self.log_trace = log_trace
+    self.log_level = log_level
 
   def __call__ (self, fn, instance, args, kwargs):
     argnames = fn.func_code.co_varnames[:fn.func_code.co_argcount]
-    log_debug = LOG.isEnabledFor (logging.DEBUG)
-    if self.log_enter and log_debug:
+    log_this = LOG.isEnabledFor (log_level)
+    if self.log_enter and log_this:
       if self.log_args:
         arg_str = ", ".join ("%s=%r" % entry for entry in
                              zip (argnames, args) + kwargs.items ())
       else:
         arg_str = "..."
-      LOG.debug ("Called: %s:%s:%s (%s)",
+      LOG.log (self.log_level, "Called: %s:%s:%s (%s)",
                  fn.__class__.__name__, fn.__module__, fn.__name__, arg_str)
     if self.log_trace:
       sys.settrace (self.globaltrace)
@@ -94,8 +96,9 @@ class log_call (log_trace):
     toc = time.time ()
     if self.log_trace:
       sys.settrace (None)
-    if self.log_exit and log_debug:
-      LOG.debug (
+    if self.log_exit and log_this:
+      LOG.log (
+        self.log_level,
         "Return: %s:%s:%s (...) -> %s (...)  Duration: %.6f secs  RC: %s",
         fn.__class__.__name__, fn.__module__, fn.__name__,
         inspect.currentframe ().f_back.f_code.co_name,
