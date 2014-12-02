@@ -80,7 +80,7 @@ class log_call (log_trace):
 
   def __call__ (self, fn, instance, args, kwargs):
     argnames = fn.func_code.co_varnames[:fn.func_code.co_argcount]
-    log_this = LOG.isEnabledFor (log_level)
+    log_this = LOG.isEnabledFor (self.log_level)
     if self.log_enter and log_this:
       if self.log_args:
         arg_str = ", ".join ("%s=%r" % entry for entry in
