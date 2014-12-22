@@ -83,8 +83,9 @@ class log_call (log_trace):
     log_this = LOG.isEnabledFor (self.log_level)
     if self.log_enter and log_this:
       if self.log_args:
+        x_args = args if not instance else ((instance,) + args)
         arg_str = ", ".join ("%s=%r" % entry for entry in
-                             zip (argnames, args) + kwargs.items ())
+                             zip (argnames, x_args) + kwargs.items ())
       else:
         arg_str = "..."
       LOG.log (self.log_level, "Called: %s:%s:%s (%s)",
