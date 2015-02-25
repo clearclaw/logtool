@@ -56,7 +56,7 @@ def log_fault_exc_str (exc, message = "", level = logging.CRITICAL,
   """Make a StringIO of the usual traceback information, followed by a
   listing of all the local variables in each frame.
   """
-  return log_fault_info_str (sys.exc_info (exc), message = message,
+  return log_fault_info_str (sys.exc_info (), message = message,
                              level = level, traceback = traceback)
 
 @log_call ()
