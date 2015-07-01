@@ -18,7 +18,7 @@ setup (
         + "GNU General Public License v3 or later (GPLv3+)",
         "Topic :: Utilities",
     ],
-    keywords = "version semver git",
+    keywords = "logging, exceptions, callpoints",
     author = "J C Lawrence",
     author_email = "claw@kanga.nu",
     url = "https://github.com/clearclaw/logtool",
