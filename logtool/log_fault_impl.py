@@ -21,7 +21,7 @@ def _generate_stackdump (stack):
       # error we don't want.
       try:
         s += str (value)[:50] # Trim large strings
-      except: # pylint: disable-msg=W0702
+      except: # pylint: disable=W0702
         s += "<ERROR WHILE PRINTING VALUE>"
       yield s
 
@@ -51,7 +51,27 @@ def log_fault (exc, message = "", level = logging.CRITICAL,
       LOG.debug (line)
 
 @log_call ()
-def log_fault_exc_str (exc, message = "", level = logging.CRITICAL,
+def log_fault_einfo (exc_info, message = "", level = logging.CRITICAL,
+                     traceback = False):
+  """Print the usual traceback information, followed by a listing of all
+  the local variables in each frame.
+  """
+  tb = exc_info[2]
+  stack = _get_stack (tb)
+  LOG.log (level,
+           "FAULT: %s%s(%s): %s:%s",
+           ("%s -- " % message) if message else "",
+           tb.tb_frame.f_code.co_filename,
+           tb.tb_lineno,
+           exc_info[0],
+           exc_info[1])
+  if traceback or LOG.isEnabledFor (logging.DEBUG):
+    for line in _generate_stackdump (stack):
+      LOG.debug (line)
+
+@log_call ()
+def log_fault_exc_str (exc, # pylint: disable=W0613
+                       message = "", level = logging.CRITICAL,
                        traceback = False):
   """Make a StringIO of the usual traceback information, followed by a
   listing of all the local variables in each frame.

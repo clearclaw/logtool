@@ -6,7 +6,7 @@ import inspect, linecache, logging, os, sys, time, wrapt
 LOG = logging.getLogger (__name__)
 
 @wrapt.decorator
-def log_func_noargs (fn, instance, args, kwargs):
+def log_func_noargs (fn, instance, args, kwargs): # pylint: disable=W0613
   if LOG.isEnabledFor (logging.DEBUG):
     LOG.debug (
       "Called: %s:%s:%s (...)",
@@ -21,7 +21,7 @@ def log_func_noargs (fn, instance, args, kwargs):
   return rc
 
 @wrapt.decorator
-def log_func (fn, instance, *args, **kwargs):
+def log_func (fn, instance, *args, **kwargs): # pylint: disable=W0613
   if LOG.isEnabledFor (logging.DEBUG):
     LOG.debug (
       "Called: %s:%s:%s (%s %s)",
@@ -40,12 +40,12 @@ def log_func (fn, instance, *args, **kwargs):
 class log_trace (object):
 
   def __init__ (self):
-    log_debug = LOG.isEnabledFor (logging.DEBUG)
+    self.log_debug = LOG.isEnabledFor (logging.DEBUG)
 
-  def globaltrace (self, frame, why, arg):
+  def globaltrace (self, frame, why, arg): # pylint: disable=W0613
     return self.localtrace if why == "call" else None
 
-  def localtrace (self, frame, why, arg):
+  def localtrace (self, frame, why, args):
     if self.log_debug and why in ["c_call", "call", "exception", "line",]:
       f_code = frame.f_code
       filename = f_code.co_filename
@@ -61,16 +61,18 @@ class log_trace (object):
   @wrapt.decorator
   def __call__ (self, fn, instance, args, kwargs):
     sys.settrace (self.globaltrace)
-    result = fn (*args, **kwds)
+    result = fn (*args, **kwargs)
     sys.settrace (None)
     return result
 
 @wrapt.decorator
 class log_call (log_trace):
 
-  def __init__ (self, log_enter = True, log_args = True, log_exit = True,
-                log_rc = True, log_trace = False,
-                log_level = logging.DEBUG):
+  def __init__ ( # pylint: disable=W0231
+      self, log_enter = True, log_args = True, log_exit = True,
+      log_rc = True, log_trace = False, # pylint: disable=W0621
+      log_level = logging.DEBUG):
+    self.log_debug = LOG.isEnabledFor (logging.DEBUG)
     self.log_enter = log_enter
     self.log_args = log_args
     self.log_exit = log_exit
