@@ -11,11 +11,12 @@ DEFAULT_SLUGFORMAT = "%Y-%m-%d-%H%M.%S"
 LOG = logging.getLogger (__name__)
 
 @log_func
-def time_str (time_t):
+def time_str (time_t, slug = False):
   '''Converts floating point number a'la time.time()
   using DEFAULT_TIMEFORMAT
   '''
-  return datetime.fromtimestamp (int (time_t)).strftime (DEFAULT_TIMEFORMAT)
+  return datetime.fromtimestamp (int (time_t)).strftime (
+    DEFAULT_SLUGFORMAT if slug else DEFAULT_TIMEFORMAT)
 
 @log_func
 def now (time_t = None, slug = False):
