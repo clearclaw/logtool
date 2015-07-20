@@ -40,8 +40,8 @@ setup (
                     % (__version_info__[0], __version_info__[1])),
     license = "GPL v3.0",
     packages = find_packages (exclude = ["tests",]),
-    package_data = {
-    },
+    package_data = {},
+    data_files = [],
     zip_safe = True,
     install_requires = [line.strip ()
         for line in file ("requirements.txt").readlines ()],
