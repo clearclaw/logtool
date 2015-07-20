@@ -1,8 +1,7 @@
+import version # pylint: disable=W0611
 from setuptools import setup, find_packages
-
-__version__ = "unknown"
-
 import pyver
+
 __version__, __version_info__ = pyver.get_version (pkg = "logtool",
                                                    public = True)
 
