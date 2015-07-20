@@ -1,8 +1,9 @@
 #! /usr/bin/env python
 
+from __future__ import absolute_import
 import logging, sys
 from StringIO import StringIO
-from logtool import log_call
+from .log_wrap import log_call
 
 # logging.basicConfig (level = logging.INFO)
 LOG = logging.getLogger (__name__)
