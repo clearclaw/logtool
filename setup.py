@@ -32,7 +32,7 @@ setup (
         + "GNU General Public License v3 or later (GPLv3+)",
         "Topic :: Utilities",
     ],
-    keywords = "logging, exceptions, callpoints",
+    keywords = "logging, exceptions, callpoints, call tracing",
     author = "J C Lawrence",
     author_email = "claw@kanga.nu",
     url = "https://github.com/clearclaw/logtool",
