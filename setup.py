@@ -30,7 +30,7 @@ setup (
     url = "https://github.com/clearclaw/logtool",
     download_url = ("https://github.com/clearclaw/logtool/tarball/%s.%s"
                     % (__version_info__[0], __version_info__[1])),
-    license = "GPL v3.0",
+    license = "LGPL v3.0",
     packages = find_packages (exclude = ["tests",]),
     package_data = {},
     data_files = [],
