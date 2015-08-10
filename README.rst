@@ -90,7 +90,7 @@ Logs an exception in a standardised form, including the source file and
 line number of the exception, and if logging at DEBUG level, also logs a
 stack trace along with all the variables in each stack frame. eg
 
-In WARN or high mode:
+In WARN or higher mode:
 
 ::
 
