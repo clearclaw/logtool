@@ -7,7 +7,7 @@ from time import gmtime, strftime, time
 from .log_wrap import log_call
 
 DEFAULT_TIMEFORMAT = "%H:%M:%S %a %d %b %Y Z+0000"
-DEFAULT_SLUGFORMAT = "%Y-%m-%d-%H%M.%S"
+DEFAULT_SLUGFORMAT = "%Y-%m-%d_%H%M.%S"
 
 LOG = logging.getLogger (__name__)
 
