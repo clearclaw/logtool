@@ -25,7 +25,7 @@ setup (
     packages = find_packages (exclude = ["tests",]),
     package_data = {},
     data_files = [],
-    zip_safe = True,
+    zip_safe = False,
     install_requires = [line.strip ()
         for line in file ("requirements.txt").readlines ()],
     entry_points = {
