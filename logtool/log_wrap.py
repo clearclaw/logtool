@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-import inspect, linecache, logging, os, sys, time, wrapt
+import functools, inspect, linecache, logging, os, sys, time, wrapt
 
 # logging.basicConfig (level = logging.INFO)
 LOG = logging.getLogger (__name__)
@@ -83,16 +83,25 @@ class log_call (log_trace):
   def __call__ (self, fn, instance, args, kwargs):
     log_this = LOG.isEnabledFor (self.log_level)
     if self.log_enter and log_this:
-      # Non-python methods don't have a func_code
-      if self.log_args and "func_code" in dir (fn):
-        argnames = fn.func_code.co_varnames[:fn.func_code.co_argcount]
-        x_args = args if not instance else ((instance,) + args)
-        arg_str = ", ".join ("%s=%r" % entry for entry in
-                             zip (argnames, x_args) + kwargs.items ())
+      if isinstance (fn, functools.partial):
+        p_args = ", ".join ([("%s" % a) for a in fn.args])
+        k = fn.keywords if fn.keywords else {}
+        k_args = ", ".join (k.items ())
+        arg_str = ", ".join ([p_args, k_args])
+        LOG.log (self.log_level, "Called: %s (%s)",
+                 fn.__class__.__name__, arg_str)
       else:
-        arg_str = "..."
-      LOG.log (self.log_level, "Called: %s:%s:%s (%s)",
-                 fn.__class__.__name__, fn.__module__, fn.__name__, arg_str)
+        # Non-python methods don't have a func_code
+        if self.log_args and "func_code" in dir (fn):
+          argnames = fn.func_code.co_varnames[:fn.func_code.co_argcount]
+          x_args = args if not instance else ((instance,) + args)
+          arg_str = ", ".join ("%s=%r" % entry for entry in
+                               zip (argnames, x_args) + kwargs.items ())
+        else:
+          arg_str = "..."
+        LOG.log (self.log_level, "Called: %s:%s:%s (%s)",
+                 fn.__class__.__name__, fn.__module__, fn.__name__,
+                 arg_str)
     if self.log_trace:
       sys.settrace (self.globaltrace)
     tic = time.time ()
@@ -101,10 +110,18 @@ class log_call (log_trace):
     if self.log_trace:
       sys.settrace (None)
     if self.log_exit and log_this:
-      LOG.log (
-        self.log_level,
-        "Return: %s:%s:%s (...) -> %s (...)  Duration: %.6f secs  RC: %s",
-        fn.__class__.__name__, fn.__module__, fn.__name__,
-        inspect.currentframe ().f_back.f_code.co_name,
-        toc - tic, rc if self.log_rc else "...")
+      if isinstance (fn, functools.partial):
+        LOG.log (
+          self.log_level,
+          "Return: %s (...) -> %s (...)  Duration: %.6f secs  RC: %s",
+          fn.__class__.__name__,
+          inspect.currentframe ().f_back.f_code.co_name,
+          toc - tic, rc if self.log_rc else "...")
+      else:
+        LOG.log (
+          self.log_level,
+          "Return: %s:%s:%s (...) -> %s (...)  Duration: %.6f secs  RC: %s",
+          fn.__class__.__name__, fn.__module__, fn.__name__,
+          inspect.currentframe ().f_back.f_code.co_name,
+          toc - tic, rc if self.log_rc else "...")
     return rc
