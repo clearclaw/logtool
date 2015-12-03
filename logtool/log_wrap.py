@@ -84,7 +84,7 @@ class log_call (log_trace):
     log_this = LOG.isEnabledFor (self.log_level)
     if self.log_enter and log_this:
       # Non-python methods don't have a func_code
-      if self.log_args and "func_code" in dir (fn):
+      if self.log_args and hasattr (fn, "func_code"):
         argnames = fn.func_code.co_varnames[:fn.func_code.co_argcount]
         x_args = args if not instance else ((instance,) + args)
         arg_str = ", ".join ("%s=%r" % entry for entry in
