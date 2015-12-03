@@ -89,7 +89,7 @@ class log_call (log_trace):
         x_args = args if not instance else ((instance,) + args)
         arg_str = ", ".join ("%s=%r" % entry for entry in
                              zip (argnames, x_args) + kwargs.items ())
-      else:
+      else: # Why?
         arg_str = "..."
       LOG.log (self.log_level, "Called: %s:%s:%s (%s)",
                  fn.__class__.__name__, fn.__module__, fn.__name__, arg_str)
