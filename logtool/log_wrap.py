@@ -92,7 +92,10 @@ class log_call (log_trace):
       else: # Why?
         arg_str = "..."
       LOG.log (self.log_level, "Called: %s:%s:%s (%s)",
-                 fn.__class__.__name__, fn.__module__, fn.__name__, arg_str)
+               fn.__class__.__name__,
+               getattr (fn, "__module__", "<?module?>"),
+               getattr (fn, "__name__", "<?name?>"),
+               arg_str)
     if self.log_trace:
       sys.settrace (self.globaltrace)
     tic = time.time ()
@@ -104,7 +107,9 @@ class log_call (log_trace):
       LOG.log (
         self.log_level,
         "Return: %s:%s:%s (...) -> %s (...)  Duration: %.6f secs  RC: %s",
-        fn.__class__.__name__, fn.__module__, fn.__name__,
+        fn.__class__.__name__,
+        getattr (fn, "__module__", "<?module?>"),
+        getattr (fn, "__name__", "<?name?>"),
         inspect.currentframe ().f_back.f_code.co_name,
         toc - tic, rc if self.log_rc else "...")
     return rc
