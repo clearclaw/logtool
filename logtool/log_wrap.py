@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-import inspect, linecache, logging, os, sys, time, wrapt
+import inspect, linecache, logging, os, six, sys, time, wrapt
 
 # logging.basicConfig (level = logging.INFO)
 LOG = logging.getLogger (__name__)
@@ -85,10 +85,11 @@ class log_call (log_trace):
     if self.log_enter and log_this:
       # Non-python methods don't have a func_code
       if self.log_args and hasattr (fn, "func_code"):
-        argnames = fn.func_code.co_varnames[:fn.func_code.co_argcount]
+        code = six.get_function_code(fn)
+        argnames = code.co_varnames[:code.co_argcount]
         x_args = args if not instance else ((instance,) + args)
         arg_str = ", ".join ("%s=%r" % entry for entry in
-                             zip (argnames, x_args) + kwargs.items ())
+                             list(zip (argnames, x_args)) + list(kwargs.items ()))
       else: # Why?
         arg_str = "..."
       LOG.log (self.log_level, "Called: %s:%s:%s (%s)",
