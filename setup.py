@@ -29,7 +29,7 @@ setup (
     zip_safe = False,
     install_requires = [line.strip ()
         for line in open ("requirements.txt", 'r',
-                    encoding = 'utf-8').readlines ()],
+                          encoding = 'utf-8').readlines ()],
     entry_points = {
         "console_scripts": [
         ],
