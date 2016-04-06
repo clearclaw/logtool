@@ -108,7 +108,7 @@ class log_call (log_trace):
     if self.log_exit and log_this:
       LOG.log (
         self.log_level,
-        "Return: %s:%s:%s (...) -> %s (...)  Duration: %.6f secs  RC: %s",
+        "Return: %s:%s:%s (...) -> %s (...)  Duration: %.6f secs  RC: %r",
         fn.__class__.__name__,
         getattr (fn, "__module__", "<?module?>"),
         getattr (fn, "__name__", "<?name?>"),
