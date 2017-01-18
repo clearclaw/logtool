@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 
-import inspect, linecache, logging, os, six, sys, time, wrapt
+from __future__ import absolute_import
+import inspect, linecache, logging, os, six, sys, timeit, wrapt
 
 # logging.basicConfig (level = logging.INFO)
 LOG = logging.getLogger (__name__)
@@ -11,9 +12,9 @@ def log_func_noargs (fn, instance, args, kwargs): # pylint: disable=W0613
     LOG.debug (
       "Called: %s:%s:%s (...)",
       fn.__class__.__name__, fn.__module__, fn.__name__)
-  tic = time.time ()
+  tic = timeit.default_timer ()
   rc = fn (*args, **kwargs)
-  toc = time.time ()
+  toc = timeit.default_timer ()
   if LOG.isEnabledFor (logging.DEBUG):
     LOG.debug (
       "Return: %s:%s:%s (...)  Duration: %.6f secs",
@@ -27,9 +28,9 @@ def log_func (fn, instance, *args, **kwargs): # pylint: disable=W0613
       "Called: %s:%s:%s (%s %s)",
       fn.__class__.__name__, fn.__module__, fn.__name__,
       args, kwargs)
-  tic = time.time ()
+  tic = timeit.default_timer ()
   rc = fn (*args, **kwargs)
-  toc = time.time ()
+  toc = timeit.default_timer ()
   if LOG.isEnabledFor (logging.DEBUG):
     LOG.debug (
       "Return: %s:%s:%s (%s %s)  Duration: %.6f secs",
@@ -70,7 +71,7 @@ class log_call (log_trace):
 
   def __init__ ( # pylint: disable=W0231
       self, log_enter = True, log_args = True, log_exit = True,
-      log_rc = True, log_trace = False, # pylint: disable=W0621
+      log_rc = True, log_exc = False, log_trace = False, # pylint: disable=W0621
       log_level = logging.DEBUG):
     self.log_debug = LOG.isEnabledFor (logging.DEBUG)
     self.log_enter = log_enter
@@ -79,6 +80,7 @@ class log_call (log_trace):
     self.log_rc = log_rc
     self.log_trace = log_trace
     self.log_level = log_level
+    self.log_exc = log_exc
 
   def __call__ (self, fn, instance, args, kwargs):
     log_this = LOG.isEnabledFor (self.log_level)
@@ -100,9 +102,15 @@ class log_call (log_trace):
                arg_str)
     if self.log_trace:
       sys.settrace (self.globaltrace)
-    tic = time.time ()
-    rc = fn (*args, **kwargs)
-    toc = time.time ()
+    tic = timeit.default_timer ()
+    try:
+      rc = fn (*args, **kwargs)
+    except Exception as e:
+      if self.log_exc:
+        from .log_fault_impl import log_fault
+        log_fault (e)
+      raise
+    toc = timeit.default_timer ()
     if self.log_trace:
       sys.settrace (None)
     if self.log_exit and log_this:
